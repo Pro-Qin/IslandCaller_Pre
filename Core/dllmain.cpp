@@ -23,7 +23,11 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 
 EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
 {
-	isAntiRepeat = IsAntiRepeat; // 设置是否启用防反复抽取
+    //bool isInitialized = false;
+    isAntiRepeat = IsAntiRepeat; // 设置是否启用防反复抽取
+	students.clear(); // 清空学生名单
+	RandomHashSet.clear(); // 清空已抽取的学生名单
+    dist = uniform_int_distribution<>(0, 0);
     wstring wstr(filenameW);
     string filename(wstr.begin(), wstr.end());
     ifstream file(filename);
@@ -59,8 +63,8 @@ EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
     }
 
     dist = uniform_int_distribution<>(0, students.size() - 1);
-	isInitialized = true;
 	ImportHashSet.clear(); // 清空导入的哈希集
+    isInitialized = true;
     return 0;
 }
 

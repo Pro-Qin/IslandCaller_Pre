@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using dotnetCampus.Ipc.CompilerServices.GeneratedProxies;
 using IslandCaller.Views.Windows;
 
 namespace IslandCaller.Models;
 
 public class Settings : ObservableRecipient
 {
-    private bool _isHoverShow = true;
+    bool _isHoverShow = true;
 
     public bool IsHoverShow
     {
@@ -28,6 +29,23 @@ public class Settings : ObservableRecipient
             _isBreakProofEnabled = value;
             OnPropertyChanged();
         }
+    }
+
+    bool _isAntiRepeatEnabled = true;
+
+    public bool IsAntiRepeatEnabled
+    {
+        get => _isAntiRepeatEnabled;
+        set
+        {
+            if (value == _isAntiRepeatEnabled) return;
+            _isAntiRepeatEnabled = value;
+            OnPropertyChanged();
+            CoreDll.DllInit(
+                System.IO.Path.Combine(Plugin.PlugincfgFolder, "default.txt"),
+                _isAntiRepeatEnabled
+            );
+}
     }
 
     HoverPositionData _hoverPosition = new HoverPositionData

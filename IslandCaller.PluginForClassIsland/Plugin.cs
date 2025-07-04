@@ -18,9 +18,11 @@ namespace IslandCaller;
 public class Plugin : PluginBase
 {
     public Settings Settings { get; set; } = new();
+    public static string PlugincfgFolder;
 
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
+        PlugincfgFolder = PluginConfigFolder;
         services.AddHostedService<IslandCallerNotificationProvider>();
         services.AddSettingsPage<IslandCallerSettingsPage>();
         Settings = ConfigureFileHelper.LoadConfig<Settings>(Path.Combine(PluginConfigFolder, "Settings.json"));
@@ -33,8 +35,8 @@ public class Plugin : PluginBase
         {
             // Declare the external function outside the local function scope
             CoreDll.DllInit(
-            Path.Combine(PluginConfigFolder, "default.txt"),
-            true
+            Path.Combine(PlugincfgFolder, "default.txt"),
+            Settings.IsAntiRepeatEnabled
         );
             if (Settings.IsHoverShow)
             {

@@ -45,6 +45,28 @@
                     </StackPanel>
                 </Expander>
             </materialDesign:Card>
+            <materialDesign:Card Margin="0 6 0 6">
+                <Expander Background="Transparent"
+          IsExpanded="True"
+          TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                    <Expander.Header>
+                        <ci:SettingsControl IconGlyph="AccountCheck"
+                                  Foreground="{DynamicResource MaterialDesignBody}"
+                                  Header="点名设置管理"
+                                  Description="用于设置点名选项"
+                                  HasSwitcher="False"
+                                  Margin="-12 0" />
+                    </Expander.Header>
+                    <StackPanel Margin="36 0 48 12">
+                        <WrapPanel>
+                            <ci:SettingsCard Header="点名放重复"
+                                Description="一节课内防止重复抽人"
+                                IconGlyph="TimerLock"
+                                IsOn="{Binding Plugin.Settings.IsAntiRepeatEnabled, Mode=TwoWay}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Expander>
+            </materialDesign:Card>
             <ci:SettingsCard Header="下课禁用"
                              Description="防止下课时误操作影响课堂秩序"
                              IconGlyph="TimerLock"

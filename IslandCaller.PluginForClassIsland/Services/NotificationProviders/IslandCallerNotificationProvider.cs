@@ -53,7 +53,7 @@ public class IslandCallerNotificationProvider : INotificationProvider, IHostedSe
     [Obsolete]
     public void RandomCall()
     {
-        int num = 1;
+        int num = 5;
         ///string filename = @".\Config\Plugins\Plugin.IslandCaller\default.txt";
         IntPtr ptr1 = CoreDll.GetRandomStudentName(num);
         string output = Marshal.PtrToStringBSTR(ptr1);

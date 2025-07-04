@@ -6,6 +6,7 @@ using System.IO;
 using IWshRuntimeLibrary;
 using ClassIsland.Core.Controls.CommonDialog;
 using System.Diagnostics;
+using IslandCaller.Models;
 namespace IslandCaller.Views.SettingsPages;
 
 /// <summary>
@@ -76,8 +77,24 @@ public partial class IslandCallerSettingsPage : SettingsPageBase
 
             if (System.IO.File.Exists(filePath))
             {
-                // 打开文件
-                Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo("notepad.exe " + filePath)
+                    {
+                        UseShellExecute = false, // 必须为 false 才能启用事件
+                    },
+                    EnableRaisingEvents = true
+                };
+                process.Exited += (sender, e) =>
+                {
+                    // 在这里写进程关闭后的代码
+                    var Settings = Plugin.Settings;
+                    CoreDll.DllInit(
+                        System.IO.Path.Combine(Plugin.PlugincfgFolder, "default.txt"),
+                        Settings.IsAntiRepeatEnabled);
+                };
+
+                process.Start();
                 CommonDialog.ShowInfo("成功打开名单。关闭前记得保存哦！");
             }
         }
