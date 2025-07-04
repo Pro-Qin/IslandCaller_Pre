@@ -112,7 +112,8 @@
       <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "..\bin\Core\Debug\Win32\Core.dll" "$(ClassIsland_DebugBinaryDirectory)Plugins\Plugin.IslandCaller\"</Command>
+      <Command>mkdir "$(ClassIsland_DebugBinaryDirectory)Plugins\Plugin.IslandCaller\"
+copy "..\bin\Core\Debug\Win32\Core.dll" "$(ClassIsland_DebugBinaryDirectory)Plugins\Plugin.IslandCaller\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -173,7 +174,8 @@
       <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy "..\bin\Core\Debug\x64\Core.dll" "$(ClassIsland_DebugBinaryDirectory)Plugins\Plugin.IslandCaller\"</Command>
+      <Command>mkdir "$(ClassIsland_DebugBinaryDirectory)Plugins\Plugin.IslandCaller\"
+copy "..\bin\Core\Debug\x64\Core.dll" "$(ClassIsland_DebugBinaryDirectory)Plugins\Plugin.IslandCaller\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

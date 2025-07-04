@@ -50,14 +50,12 @@ public class IslandCallerNotificationProvider : INotificationProvider, IHostedSe
         );
     }
 
-    [DllImport(".\\Plugins\\Plugin.IslandCaller\\Core.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern IntPtr GetRandomStudentName();
-
+    [Obsolete]
     public void RandomCall()
     {
-        int num = 1;
-        string filename = @".\Config\Plugins\Plugin.IslandCaller\default.txt";
-        IntPtr ptr1 = GetRandomStudentName();
+        int num = 2;
+        ///string filename = @".\Config\Plugins\Plugin.IslandCaller\default.txt";
+        IntPtr ptr1 = CoreDll.GetRandomStudentName(num);
         string output = Marshal.PtrToStringBSTR(ptr1);
         Marshal.FreeBSTR(ptr1); // 释放分配的 BSTR 内存
 

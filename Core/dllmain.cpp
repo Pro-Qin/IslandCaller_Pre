@@ -1,6 +1,12 @@
 ﻿#include "pch.h"
 using namespace std;
 
+vector<string> students;
+bool isAntiRepeat = true;
+bool isInitialized = false;
+random_device rd;
+mt19937 gen(rd());
+uniform_int_distribution<> dist(0, 0);
 
 // DllMain
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {
@@ -14,44 +20,63 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
     return TRUE;
 }
 
-
-//点名器函数
-string GetRandomStudent(const wchar_t* filenameW, int number)
+EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
 {
     wstring wstr(filenameW);
     string filename(wstr.begin(), wstr.end());
     ifstream file(filename);
     if (!file) {
-        MessageBox(NULL, (L"Failed to open: " + wstring(filename.begin(), filename.end())).c_str(), L"Error", MB_ICONERROR);
-        return "Error";
+        MessageBox(NULL, (L"IslandCaller: Failed to open: " + wstring(filename.begin(), filename.end())).c_str(), L"Error", MB_ICONERROR);
+        return -1;
     }
-
-    vector<string> students;
     string name;
     while (getline(file, name)) {
+        if (students.size() >= students.max_size()) { // 检查是否达到容器最大容量
+            MessageBox(NULL, L"IslandCaller: Student list size exceeds maximum capacity!", L"Error", MB_ICONERROR);
+            file.close();
+            return -1;
+        }
         students.push_back(name);
     }
     file.close();
-
+    
     // 检查名单是否为空
     if (students.empty()) {
-        MessageBox(NULL, L"Namelist is empty!", L"Error", MB_ICONERROR);
-        return "Error";
+        MessageBox(NULL, L"IslandCaller: Namelist is empty!", L"Error", MB_ICONERROR);
+        return -1;
     }
 
+    dist = uniform_int_distribution<>(0, students.size() - 1);
+	isInitialized = true;
+    return 0;
+}
+
+void ClearHistory()
+{
+
+}
+
+//点名器函数
+string GetRandomStudent(const int number)
+{
+    if (!isInitialized)
+    {
+        return "Not Initialized!";
+    }
+    string output = "";
     // 随机抽取学生
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dist(0, students.size() - 1);
-    int randomIndex = dist(gen);
-    return students[randomIndex];
+    for (size_t i = 0; i < number; i++)
+    {
+        int randomIndex = dist(gen);
+        output += students[randomIndex];
+		output += (i == number - 1) ? "" : ", "; // 添加逗号分隔
+    }
+	return output;
 }
 
 //EXPORT wstring GetRandomStudent
-EXPORT_DLL BSTR GetRandomStudentName(/*wstring filename, int number*/) {
-    wstring filename = L".\\Config\\Plugins\\Plugin.IslandCaller\\default.txt";
-    int number = 1;
-    string name = GetRandomStudent(filename.c_str(), number);
+EXPORT_DLL BSTR GetRandomStudentName(int number) {
+    string name = GetRandomStudent(number);
     wstring_convert<codecvt_utf8_utf16<wchar_t>> converter;
     wstring wstr = converter.from_bytes(name);
     return SysAllocString(wstr.c_str());
