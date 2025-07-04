@@ -53,12 +53,12 @@ public class IslandCallerNotificationProvider : INotificationProvider, IHostedSe
     [Obsolete]
     public void RandomCall()
     {
-        int num = 2;
+        int num = 1;
         ///string filename = @".\Config\Plugins\Plugin.IslandCaller\default.txt";
         IntPtr ptr1 = CoreDll.GetRandomStudentName(num);
         string output = Marshal.PtrToStringBSTR(ptr1);
         Marshal.FreeBSTR(ptr1); // 释放分配的 BSTR 内存
-
+        int maskduration = num * 2 + 1; // 计算持续时间
 
         // 显示通知
         NotificationHostService.ShowNotification(new NotificationRequest()
@@ -69,7 +69,7 @@ public class IslandCallerNotificationProvider : INotificationProvider, IHostedSe
                 HorizontalAlignment = HorizontalAlignment.Center
             },
             MaskSpeechContent = output,
-            MaskDuration = new TimeSpan(0, 0, 3),
+            MaskDuration = new TimeSpan(0, 0, maskduration),
         });
     }
 

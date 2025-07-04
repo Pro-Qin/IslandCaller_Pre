@@ -4,6 +4,7 @@ using namespace std;
 vector<string> students;
 bool isAntiRepeat = true;
 bool isInitialized = false;
+unordered_set<string> RandomHashSet; // 用于存储已抽取的学生名单
 random_device rd;
 mt19937 gen(rd());
 uniform_int_distribution<> dist(0, 0);
@@ -30,13 +31,23 @@ EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
         return -1;
     }
     string name;
+    unordered_set<string> ImportHashSet;
+
     while (getline(file, name)) {
         if (students.size() >= students.max_size()) { // 检查是否达到容器最大容量
             MessageBox(NULL, L"IslandCaller: Student list size exceeds maximum capacity!", L"Error", MB_ICONERROR);
             file.close();
             return -1;
         }
+        if( name.empty() || name.find_first_not_of(" \t\n\r") == string::npos) {
+            continue; // 跳过空行
+		}
+        if (ImportHashSet.find(name) != ImportHashSet.end())
+        {
+            continue; // 跳过重复
+        }
         students.push_back(name);
+		ImportHashSet.insert(name); // 添加到哈希集以避免重复
     }
     file.close();
     
@@ -48,6 +59,7 @@ EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
 
     dist = uniform_int_distribution<>(0, students.size() - 1);
 	isInitialized = true;
+	ImportHashSet.clear(); // 清空导入的哈希集
     return 0;
 }
 

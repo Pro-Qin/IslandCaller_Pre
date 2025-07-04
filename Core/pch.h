@@ -19,6 +19,7 @@
 #include <comutil.h>
 #include <locale>
 #include <codecvt>
+#include <unordered_set>
 #endif //PCH_H
 
 #ifdef EXPORT_DLL
