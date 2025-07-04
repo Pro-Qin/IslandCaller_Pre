@@ -23,6 +23,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 
 EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
 {
+	isAntiRepeat = IsAntiRepeat; // 设置是否启用防反复抽取
     wstring wstr(filenameW);
     string filename(wstr.begin(), wstr.end());
     ifstream file(filename);
@@ -65,7 +66,7 @@ EXPORT_DLL int DllInit(const wchar_t* filenameW, bool IsAntiRepeat)
 
 void ClearHistory()
 {
-
+	RandomHashSet.clear(); // 清空已抽取的学生名单
 }
 
 //点名器函数
@@ -76,11 +77,26 @@ string GetRandomStudent(const int number)
         return "Not Initialized!";
     }
     string output = "";
+    if (number >= students.size())
+    {
+        return "Not enough students!";// 如果请求的数量超过学生名单，则退出
+    }
     // 随机抽取学生
     for (size_t i = 0; i < number; i++)
     {
+        if(RandomHashSet.size() >= students.size())
+        {
+            ClearHistory();
+		}
         int randomIndex = dist(gen);
-        output += students[randomIndex];
+		string randomstu = students[randomIndex];
+        if (isAntiRepeat && RandomHashSet.find(randomstu) != RandomHashSet.end())
+        {
+			i -= 1; // 如果已抽取过该学生，则重新抽取
+			continue;
+        }
+        output += randomstu;
+		RandomHashSet.insert(randomstu); // 添加到已抽取名单中
 		output += (i == number - 1) ? "" : ", "; // 添加逗号分隔
     }
 	return output;
