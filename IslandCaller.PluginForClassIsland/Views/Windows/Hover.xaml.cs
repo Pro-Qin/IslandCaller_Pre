@@ -3,7 +3,7 @@ using ClassIsland.Core.Commands;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
-using IslandCaller.Services.NotificationProviders;
+using IslandCaller.Services.NotificationProvidersNew;
 using IslandCaller.Views.SettingsPages;
 using IslandCaller.Models;
 
@@ -75,6 +75,6 @@ public partial class Hover : Window
 
     private void RandomCall(object? sender, EventArgs e)
     {
-        UriNavigationCommands.UriNavigationCommand.Execute("classisland://plugins/IslandCaller/Run");
+        new IslandCallerNotificationProviderNew().RandomCall(1);
     }
 }

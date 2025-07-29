@@ -4,7 +4,8 @@ using ClassIsland.Core.Attributes;
 using ClassIsland.Core.Extensions.Registry;
 using ClassIsland.Shared.Helpers;
 using IslandCaller.Models;
-using IslandCaller.Services.NotificationProviders;
+using IslandCaller.Services.IslandCallerHostService;
+using IslandCaller.Services.NotificationProvidersNew;
 using IslandCaller.Views.SettingsPages;
 using IslandCaller.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,8 @@ public class Plugin : PluginBase
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
         PlugincfgFolder = PluginConfigFolder;
-        services.AddHostedService<IslandCallerNotificationProvider>();
+        services.AddHostedService<IslandCallerHostService>();
+        services.AddNotificationProvider<IslandCallerNotificationProviderNew>();
         services.AddSettingsPage<IslandCallerSettingsPage>();
         Settings = ConfigureFileHelper.LoadConfig<Settings>(Path.Combine(PluginConfigFolder, "Settings.json"));
         Settings.PropertyChanged += (sender, args) =>
