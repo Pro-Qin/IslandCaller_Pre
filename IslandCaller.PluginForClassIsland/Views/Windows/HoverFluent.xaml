@@ -1,0 +1,52 @@
+﻿<Window x:Class="IslandCaller.Views.Windows.HoverFluent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:IslandCaller.Views.Windows"
+        xmlns:models="clr-namespace:IslandCaller.Models" 
+        d:DataContext="{d:DesignInstance Type=models:Settings}"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        ShowInTaskbar="True"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        Topmost="True"
+        Title="Hover" Height="70" Width="150"
+        SourceInitialized="Window_SourceInitialized">
+
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Dark" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+        <ui:Button
+            Appearance="Primary"
+            Content="Call"
+            Margin="6,0,0,0"
+            Height="50"
+            Width="80"
+            Background="#D07525FF"
+            FontSize="24"
+            FontWeight="Bold"
+            Foreground="White"
+            Click="Button_Click">
+        </ui:Button>
+        <ui:Button
+            Appearance="Secondary"
+            Content="+" Margin="92,0,0,0"
+            Height="50"
+            Width="50" 
+            Background="#4C808080" FontSize="24">
+        </ui:Button>
+    </Grid>
+
+
+</Window>

@@ -11,7 +11,9 @@ using IslandCaller.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace IslandCaller;
 
@@ -35,11 +37,20 @@ public class Plugin : PluginBase
 
         AppBase.Current.AppStarted += (_, _) =>
         {
-            // Declare the external function outside the local function scope
             CoreDll.DllInit(
             Path.Combine(PlugincfgFolder, "default.txt"),
-            Settings.IsAntiRepeatEnabled
-        );
+            Settings.IsAntiRepeatEnabled);
+            string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Plugins\\Plugin.IslandCaller", "Wpf.Ui.dll");
+            if (File.Exists(dllPath))
+            {
+                Assembly.LoadFrom(dllPath);
+            }
+            else
+            {
+                MessageBox.Show("未找到 Wpf.Ui.dll at " + dllPath);
+            }
+            var hoverFluent = new HoverFluent();
+            hoverFluent.Show();
             if (Settings.IsHoverShow)
             {
                 Hover.Instance ??= new Hover(this);
