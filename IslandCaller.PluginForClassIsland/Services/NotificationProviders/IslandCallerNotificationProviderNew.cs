@@ -5,9 +5,12 @@ using ClassIsland.Core.Models.Notification;
 using ClassIsland.Shared.Enums;
 using ClassIsland.Shared.Interfaces;
 using IslandCaller.Controls.NotificationProviders;
+using IslandCaller.Views.Windows;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Hosting;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using IslandCaller.Views.Windows;
 
 namespace IslandCaller.Services.NotificationProvidersNew;
 

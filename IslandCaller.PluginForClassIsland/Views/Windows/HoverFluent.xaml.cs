@@ -28,9 +28,14 @@ namespace IslandCaller.Views.Windows
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            MainButton.IsEnabled = false;
+            img.Opacity = 0.5;
             new IslandCallerNotificationProviderNew().RandomCall(1);
+            await Task.Delay(3000);
+            MainButton.IsEnabled = true;
+            img.Opacity = 1.0;
         }
     }
 }
