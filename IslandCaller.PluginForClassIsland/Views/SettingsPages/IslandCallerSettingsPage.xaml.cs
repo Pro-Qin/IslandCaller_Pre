@@ -88,10 +88,8 @@ public partial class IslandCallerSettingsPage : SettingsPageBase
                 process.Exited += (sender, e) =>
                 {
                     // 在这里写进程关闭后的代码
-                    var Settings = Plugin.Settings;
                     CoreDll.DllInit(
-                        System.IO.Path.Combine(Plugin.PlugincfgFolder, "default.txt"),
-                        Settings.IsAntiRepeatEnabled);
+                        System.IO.Path.Combine(Plugin.PlugincfgFolder, "default.txt"),true);
                 };
 
                 process.Start();

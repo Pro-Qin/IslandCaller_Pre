@@ -43,13 +43,13 @@ public static class WindowHelper
         public int AnimationId;
     }
 
-    public static void EnableBlur(Window window)
+    public static void EnableBlur(Window window, int color)
     {
         var windowHelper = new WindowInteropHelper(window);
         var accent = new AccentPolicy
         {
             AccentState = (int)AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
-            GradientColor = 0x00FFFFFF // AABBGGRR
+            GradientColor = color // AABBGGRR
         };
 
         var size = Marshal.SizeOf(accent);
@@ -76,9 +76,9 @@ public static class WindowHelper
 
 
 
-    public static void EnableFluentWindow(Window window, DwmWindowCornerPreference cornerPref = DwmWindowCornerPreference.DWMWCP_ROUND)
+    public static void EnableFluentWindow(Window window, int color)
     {
-        EnableBlur(window);
-        SetWindowCorner(window, cornerPref);
+        EnableBlur(window, color);
+        SetWindowCorner(window, DwmWindowCornerPreference.DWMWCP_ROUND);
     }
 }

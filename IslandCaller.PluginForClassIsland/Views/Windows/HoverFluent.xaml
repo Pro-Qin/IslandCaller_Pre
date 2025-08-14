@@ -10,13 +10,14 @@
         d:DataContext="{d:DesignInstance Type=models:Settings}"
         mc:Ignorable="d"
         WindowStyle="None"
-        AllowsTransparency="False"
-        ShowInTaskbar="True"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
         ResizeMode="NoResize"
-        Background="Transparent"
+        Background="#01FFFFFF"
         Topmost="True"
         Title="Hover" Height="70" Width="163"
         SourceInitialized="Window_SourceInitialized" 
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowDrop="True">
 
     <Window.Resources>
@@ -27,7 +28,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" Opacity="0.995">
+    <Grid>
         <ui:Button
             x:Name="MainButton"
             Appearance="Primary"
@@ -35,15 +36,14 @@
             Height="50"
             Width="85"
             Background="#BF8A73D6"
-            FontSize="24"
-            FontWeight="Bold"
             Foreground="White"
-            Click="Button_Click" 
+            Click="MainButton_Click" 
             MouseOverBackground="#E5715DC4" 
             PressedBackground="#FF4E3BAB" 
             Focusable="False" 
             PressedForeground="White"
-            Padding="4">
+            Padding="4"
+            PreviewMouseLeftButtonDown="MainButton_PreviewMouseLeftButtonDown">
             <controls:HoverMainButton x:Name="img" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
         </ui:Button>
         <ui:Button
@@ -52,7 +52,9 @@
             Height="50"
             Width="50" 
             Background="#4C808080"
-            Padding="4">
+            Padding="4"
+            Click="SecondaryButton_Click"
+            PreviewMouseLeftButtonDown="SecondaryButton_PreviewMouseLeftButtonDown">
             <controls:HoverSecondaryButton HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
         </ui:Button>
     </Grid>

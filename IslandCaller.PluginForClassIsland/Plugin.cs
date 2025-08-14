@@ -10,6 +10,7 @@ using IslandCaller.Views.SettingsPages;
 using IslandCaller.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Win32;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -20,26 +21,21 @@ namespace IslandCaller;
 [PluginEntrance]
 public class Plugin : PluginBase
 {
-    public Settings Settings { get; set; } = new();
     public static string PlugincfgFolder;
-
+    
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
         PlugincfgFolder = PluginConfigFolder;
         services.AddHostedService<IslandCallerHostService>();
         services.AddNotificationProvider<IslandCallerNotificationProviderNew>();
         services.AddSettingsPage<IslandCallerSettingsPage>();
-        Settings = ConfigureFileHelper.LoadConfig<Settings>(Path.Combine(PluginConfigFolder, "Settings.json"));
-        Settings.PropertyChanged += (sender, args) =>
-        {
-            ConfigureFileHelper.SaveConfig<Settings>(Path.Combine(PluginConfigFolder, "Settings.json"), Settings);
-        };
 
         AppBase.Current.AppStarted += (_, _) =>
         {
+            new Models.Settings().Load();
             CoreDll.DllInit(
             Path.Combine(PlugincfgFolder, "default.txt"),
-            Settings.IsAntiRepeatEnabled);
+            true);
             string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Plugins\\Plugin.IslandCaller", "Wpf.Ui.dll");
             if (File.Exists(dllPath))
             {
@@ -49,13 +45,11 @@ public class Plugin : PluginBase
             {
                 MessageBox.Show("未找到 Wpf.Ui.dll at " + dllPath);
             }
-            var hoverFluent = new HoverFluent();
-            hoverFluent.Show();
-            if (Settings.IsHoverShow)
+            
+            if (Settings.Instance.Hover.IsEnable)
             {
-                Hover.Instance ??= new Hover(this);
-                Hover.Instance.Show();
-            }
+                new HoverFluent().Show();
+            }   
         };
     }
 }

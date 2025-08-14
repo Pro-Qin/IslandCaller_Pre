@@ -18,7 +18,7 @@ namespace IslandCaller.Services.IslandCallerHostService
                 "IslandCaller/Run",
                 args =>
                 {
-                    if (plugin.Settings.IsBreakProofEnabled & LessonsService.CurrentState == TimeState.Breaking) return;
+                    if (true & LessonsService.CurrentState == TimeState.Breaking) return;
                     new IslandCallerNotificationProviderNew().RandomCall(1);
                 }
             );

@@ -18,6 +18,7 @@
     <ItemGroup>
       <None Remove="Resource\Main.png" />
       <None Remove="Resource\Secondary.png" />
+      <None Remove="Resource\Shower.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,6 +31,10 @@
         <Isolated>false</Isolated>
         <EmbedInteropTypes>true</EmbedInteropTypes>
       </COMReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resource\Shower.png" />
     </ItemGroup>
 
     <ItemGroup>

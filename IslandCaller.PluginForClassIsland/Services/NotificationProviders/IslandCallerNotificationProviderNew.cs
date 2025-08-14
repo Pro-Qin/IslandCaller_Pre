@@ -21,7 +21,7 @@ namespace IslandCaller.Services.NotificationProvidersNew;
     "用于为IslandCaller提供通知接口")]
 public class IslandCallerNotificationProviderNew : NotificationProviderBase
 {
-    public void RandomCall(int stunum)
+    public async void RandomCall(int stunum)
     {
         IntPtr ptr1 = CoreDll.GetRandomStudentName(stunum);
         string output = Marshal.PtrToStringBSTR(ptr1);
@@ -37,5 +37,9 @@ public class IslandCallerNotificationProviderNew : NotificationProviderBase
                 SpeechContent = output,
             }
         });
+        var fluentShower = new FluentShower(output, stunum);
+        fluentShower.Show();
+        await Task.Delay(maskduration * 1000); // 等待指定的持续时间
+        fluentShower.Close();
     }
 }

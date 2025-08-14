@@ -101,7 +101,7 @@ string GetRandomStudent(const int number)
         }
         output += randomstu;
 		RandomHashSet.insert(randomstu); // 添加到已抽取名单中
-		output += (i == number - 1) ? "" : ", "; // 添加逗号分隔
+		output += (i == number - 1) ? "" : "  "; // 添加逗号分隔
     }
 	return output;
 }
