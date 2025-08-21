@@ -1,25 +1,12 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.ComponentModel;
+using System.Text.Json;
 using System.Windows;
-using static WindowHelper;
 
 namespace IslandCaller.Models
 {
     public class Settings
     {
-        private static SettingsModel _instance = new SettingsModel();
-        public static event Action<SettingsModel>? SettingsChanged;
-
-        public static SettingsModel Instance
-        {
-            get => _instance;
-            set
-            {
-                _instance = value;
-                SettingsChanged?.Invoke(value);
-            }
-        }
+        public static SettingsModel Instance { get; } = new SettingsModel();
 
         public void Load()
         {
@@ -41,7 +28,12 @@ namespace IslandCaller.Models
                 IsC_HoverKey_Position = IsC_HoverKey?.CreateSubKey("Position", writable: true);
                 IsC_SecurityKey_SecretKey = IsC_SecurityKey?.CreateSubKey("SecretKey", writable: true);
 
-                IsC_GeneralKey?.SetValue("Version", Instance.General.Version);
+                IsC_GeneralKey?.SetValue("BreakDisable", Instance.General.BreakDisable);
+                IsC_ProfileKey?.SetValue("ProfileNum", Instance.Profile.ProfileNum);
+                IsC_ProfileKey?.SetValue("DefaultProfileName", Instance.Profile.DefaultProfile.ToString());
+                IsC_ProfileKey?.SetValue("IsPreferProfile", Instance.Profile.IsPreferProfile);
+                IsC_ProfileKey?.SetValue("ProfileList", JsonSerializer.Serialize(Instance.Profile.ProfileList));
+                IsC_ProfileKey?.SetValue("PreferProfile", JsonSerializer.Serialize(Instance.Profile.ProfilePrefer));
                 IsC_HoverKey?.SetValue("IsEnable", Instance.Hover.IsEnable);
                 IsC_HoverKey_Position?.SetValue("X", Instance.Hover.Position.X);
                 IsC_HoverKey_Position?.SetValue("Y", Instance.Hover.Position.Y);
@@ -63,7 +55,13 @@ namespace IslandCaller.Models
                 IsC_HoverKey_Position = IsC_HoverKey?.OpenSubKey("Position", writable: true);
                 IsC_SecurityKey_SecretKey = IsC_SecurityKey?.OpenSubKey("SecretKey", writable: true);
 
-                Instance.Hover.IsEnable = bool.TryParse(IsC_HoverKey?.GetValue("IsEnable")?.ToString(), out var b) ? b : false;
+                Instance.General.BreakDisable = Convert.ToBoolean(IsC_GeneralKey?.GetValue("BreakDisable") ?? false);
+                Instance.Profile.ProfileNum = Convert.ToInt32(IsC_ProfileKey?.GetValue("ProfileNum") ?? 1);
+                Instance.Profile.DefaultProfile = Guid.Parse(IsC_ProfileKey?.GetValue("DefaultProfileName") as string ?? Guid.Empty.ToString());
+                Instance.Profile.IsPreferProfile = Convert.ToBoolean(IsC_ProfileKey?.GetValue("IsPreferProfile") ?? false);
+                Instance.Profile.ProfileList = JsonSerializer.Deserialize<Dictionary<Guid, string>>(IsC_ProfileKey?.GetValue("ProfileList") as string ?? string.Empty);
+                Instance.Profile.ProfilePrefer = JsonSerializer.Deserialize<Dictionary<Guid, string>>(IsC_ProfileKey?.GetValue("PreferProfile") as string ?? string.Empty);
+                Instance.Hover.IsEnable = Convert.ToBoolean(IsC_HoverKey?.GetValue("IsEnable") ?? true);
                 Instance.Hover.Position.X = Convert.ToDouble(IsC_HoverKey_Position?.GetValue("X") ?? 200.0);
                 Instance.Hover.Position.Y = Convert.ToDouble(IsC_HoverKey_Position?.GetValue("Y") ?? 200.0);
                 Instance.Security.EncryptionMode = Convert.ToInt32(IsC_SecurityKey?.GetValue("EncryptionMode") ?? 0);
@@ -80,11 +78,19 @@ namespace IslandCaller.Models
         public void Save()
         {
             RegistryKey IsC_RootKey = Registry.CurrentUser.OpenSubKey(@"Software\IslandCaller", writable: true);
+            RegistryKey IsC_GeneralKey = IsC_RootKey?.OpenSubKey("General", writable: true);
+            RegistryKey IsC_ProfileKey = IsC_RootKey?.OpenSubKey("Profile", writable: true);
             RegistryKey IsC_HoverKey = IsC_RootKey?.OpenSubKey("Hover", writable: true);
             RegistryKey IsC_HoverKey_Position = IsC_HoverKey?.OpenSubKey("Position", writable: true);
             RegistryKey IsC_SecurityKey = IsC_RootKey?.OpenSubKey("Security", writable: true);
             RegistryKey IsC_SecurityKey_SecretKey = IsC_SecurityKey?.OpenSubKey("SecretKey", writable: true);
 
+            IsC_GeneralKey?.SetValue("BreakDisable", Instance.General.BreakDisable);
+            IsC_ProfileKey?.SetValue("ProfileNum", Instance.Profile.ProfileNum);
+            IsC_ProfileKey?.SetValue("DefaultProfileName", Instance.Profile.DefaultProfile.ToString());
+            IsC_ProfileKey?.SetValue("IsPreferProfile", Instance.Profile.IsPreferProfile);
+            IsC_ProfileKey?.SetValue("ProfileList", JsonSerializer.Serialize(Instance.Profile.ProfileList));
+            IsC_ProfileKey?.SetValue("PreferProfile", JsonSerializer.Serialize(Instance.Profile.ProfilePrefer));
             IsC_HoverKey?.SetValue("IsEnable", Instance.Hover.IsEnable);
             IsC_HoverKey_Position?.SetValue("X", Instance.Hover.Position.X);
             IsC_HoverKey_Position?.SetValue("Y", Instance.Hover.Position.Y);

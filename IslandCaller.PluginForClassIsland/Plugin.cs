@@ -2,15 +2,12 @@
 using ClassIsland.Core.Abstractions;
 using ClassIsland.Core.Attributes;
 using ClassIsland.Core.Extensions.Registry;
-using ClassIsland.Shared.Helpers;
 using IslandCaller.Models;
 using IslandCaller.Services.IslandCallerHostService;
 using IslandCaller.Services.NotificationProvidersNew;
-using IslandCaller.Views.SettingsPages;
 using IslandCaller.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Win32;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -22,13 +19,11 @@ namespace IslandCaller;
 public class Plugin : PluginBase
 {
     public static string PlugincfgFolder;
-    
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
         PlugincfgFolder = PluginConfigFolder;
         services.AddHostedService<IslandCallerHostService>();
         services.AddNotificationProvider<IslandCallerNotificationProviderNew>();
-        services.AddSettingsPage<IslandCallerSettingsPage>();
 
         AppBase.Current.AppStarted += (_, _) =>
         {
@@ -49,9 +44,10 @@ public class Plugin : PluginBase
             if (Settings.Instance.Hover.IsEnable)
             {
                 new HoverFluent().Show();
-            }   
+            }
         };
     }
+
 }
 
 public static class CoreDll

@@ -49,17 +49,26 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="Icon.ico">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Icon.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="manifest.yml">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="README.md">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ViewModel\" />
+      <Resource Include="Resource\Secondary.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Resource\Secondary.png" />
+      <Folder Include="ViewModel\" />
     </ItemGroup>
 
 </Project>
