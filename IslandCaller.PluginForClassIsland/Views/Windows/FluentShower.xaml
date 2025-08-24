@@ -15,8 +15,10 @@
         WindowStartupLocation="CenterScreen" 
         Focusable="False" 
         WindowStyle="None" 
+        SizeToContent="Width"
         AllowsTransparency="False"
-        Background="#318B62FF" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-    <Grid x:Name="ShowerGrid">
+        Background="#318B62FF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid x:Name="ShowerGrid"
+          HorizontalAlignment="Stretch">
     </Grid>
 </Window>

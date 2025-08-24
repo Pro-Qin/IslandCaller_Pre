@@ -25,12 +25,11 @@ namespace IslandCaller.Views.Windows
             var control = new Controls.FluentShower.FluentShowerControl(name)
             {
                 Height = 95,
-                Margin = new Thickness(10, 0, 15, 0),
+                Margin = new Thickness(20, 0, 25, 0),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
             InitializeComponent();
-            this.Width = 510 + (num - 1) * 248;
             ShowerGrid.Children.Add(control);
         }
         private void Window_SourceInitialized(object sender, EventArgs e)
