@@ -7,8 +7,8 @@
         xmlns:local1="clr-namespace:IslandCaller.Controls.FluentShower"
         mc:Ignorable="d"
         Title="FluentShower" 
-        SourceInitialized="Window_SourceInitialized" 
         Height="120"
+        SourceInitialized="Window_SourceInitialized" 
         ResizeMode="NoResize" 
         ShowInTaskbar="False" 
         Topmost="True" 
@@ -18,7 +18,7 @@
         SizeToContent="Width"
         AllowsTransparency="False"
         Background="#318B62FF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    <Grid x:Name="ShowerGrid"
+    <Grid x:Name="RootGrid"
           HorizontalAlignment="Stretch">
     </Grid>
 </Window>
