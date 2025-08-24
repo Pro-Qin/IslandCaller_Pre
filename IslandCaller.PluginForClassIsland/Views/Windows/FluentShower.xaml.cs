@@ -10,7 +10,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace IslandCaller.Views.Windows
@@ -30,7 +32,8 @@ namespace IslandCaller.Views.Windows
                 VerticalAlignment = VerticalAlignment.Center
             };
             InitializeComponent();
-            ShowerGrid.Children.Add(control);
+            RootGrid.Children.Add(control);
+            Loaded += (s, e) => Onloaded();
         }
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
@@ -38,5 +41,23 @@ namespace IslandCaller.Views.Windows
             HwndSource source = (HwndSource)PresentationSource.FromVisual(this);
             source.CompositionTarget.BackgroundColor = Colors.Transparent;
         }
+
+        private void Onloaded()
+        {
+            var storyboard = new Storyboard();
+            var fadeIn = new DoubleAnimation
+            {
+                From = 0.3,
+                To = 1,
+                Duration = TimeSpan.FromMilliseconds(500),
+                EasingFunction = new ElasticEase { Oscillations = 1, Springiness = 3 }
+            };
+            Storyboard.SetTarget(fadeIn, this);
+            Storyboard.SetTargetProperty(fadeIn, new PropertyPath(Window.OpacityProperty));
+
+            storyboard.Children.Add(fadeIn);
+            storyboard.Begin();
+        }
+
     }
 }
