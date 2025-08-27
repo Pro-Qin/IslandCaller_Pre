@@ -1,7 +1,10 @@
 ﻿using IslandCaller.Services.NotificationProvidersNew;
 using ClassIsland.Core.Abstractions.Services;
 using ClassIsland.Shared.Enums;
+using IslandCaller.Models;
 using Microsoft.Extensions.Hosting;
+using ControlzEx.Standard;
+using Status = IslandCaller.Models.Status;
 
 namespace IslandCaller.Services.IslandCallerHostService
 {
@@ -14,11 +17,29 @@ namespace IslandCaller.Services.IslandCallerHostService
         {
             LessonsService = lessonsService;
             UriNavigationService = uriNavigationService;
+            lessonsService.CurrentTimeStateChanged += (s, e) =>
+            {
+                Status.Instance.lessonstatu = lessonsService.CurrentState;
+                Core.ClearHistory();
+            };
             UriNavigationService.HandlePluginsNavigation(
                 "IslandCaller/Run",
                 args =>
                 {
-                    if (true & LessonsService.CurrentState == TimeState.Breaking) return;
+                    new IslandCallerNotificationProviderNew().RandomCall(1);
+                }
+            );
+            UriNavigationService.HandlePluginsNavigation(
+                "IslandCaller/Simple",
+                args =>
+                {
+                    new IslandCallerNotificationProviderNew().RandomCall(1);
+                }
+            );
+            UriNavigationService.HandlePluginsNavigation(
+                "IslandCaller/Advanced/GUI",
+                args =>
+                {
                     new IslandCallerNotificationProviderNew().RandomCall(1);
                 }
             );

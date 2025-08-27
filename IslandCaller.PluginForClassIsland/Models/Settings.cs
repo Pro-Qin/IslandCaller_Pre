@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.IO;
 using System.Text.Json;
 using System.Windows;
 
@@ -38,13 +39,24 @@ namespace IslandCaller.Models
                 IsC_HoverKey_Position?.SetValue("X", Instance.Hover.Position.X);
                 IsC_HoverKey_Position?.SetValue("Y", Instance.Hover.Position.Y);
                 IsC_SecurityKey?.SetValue("EncryptionMode", Instance.Security.EncryptionMode);
+                IsC_SecurityKey?.SetValue("IsLockOn", Instance.Security.IsLockOn);
                 IsC_SecurityKey_SecretKey?.SetValue("AESKey", Instance.Security.SecretKey.AESKey);
                 IsC_SecurityKey_SecretKey?.SetValue("TOTPKey", Instance.Security.SecretKey.TOTPKey);
                 IsC_SecurityKey_SecretKey?.SetValue("Passkey", Instance.Security.SecretKey.Passkey);
                 IsC_SecurityKey_SecretKey?.SetValue("Password", Instance.Security.SecretKey.Password);
                 IsC_SecurityKey_SecretKey?.SetValue("USBKey", Instance.Security.SecretKey.USBKey);
-
-                MessageBox.Show("Welcome!");
+                
+                string oldprofile = Path.Combine(Plugin.PlugincfgFolder, "default.txt");
+                if (File.Exists(oldprofile))
+                {
+                    ProfileProcess.MigrationToCSV(oldprofile);
+                    MessageBox.Show("已升级至IslandCaller v1.1.0.0 原档案已导入");
+                }
+                else
+                {
+                    ProfileProcess.CreateDemoCsv();
+                    MessageBox.Show("欢迎使用 IslandCaller！");
+                }
             }
             else
             {
@@ -65,6 +77,7 @@ namespace IslandCaller.Models
                 Instance.Hover.Position.X = Convert.ToDouble(IsC_HoverKey_Position?.GetValue("X") ?? 200.0);
                 Instance.Hover.Position.Y = Convert.ToDouble(IsC_HoverKey_Position?.GetValue("Y") ?? 200.0);
                 Instance.Security.EncryptionMode = Convert.ToInt32(IsC_SecurityKey?.GetValue("EncryptionMode") ?? 0);
+                Instance.Security.IsLockOn = Convert.ToBoolean(IsC_SecurityKey?.GetValue("IsLockOn") ?? false);
                 Instance.Security.SecretKey.AESKey = IsC_SecurityKey_SecretKey?.GetValue("AESKey") as string ?? string.Empty;
                 Instance.Security.SecretKey.TOTPKey = IsC_SecurityKey_SecretKey?.GetValue("TOTPKey") as string ?? string.Empty;
                 Instance.Security.SecretKey.Passkey = IsC_SecurityKey_SecretKey?.GetValue("Passkey") as string ?? string.Empty;
@@ -95,11 +108,7 @@ namespace IslandCaller.Models
             IsC_HoverKey_Position?.SetValue("X", Instance.Hover.Position.X);
             IsC_HoverKey_Position?.SetValue("Y", Instance.Hover.Position.Y);
             IsC_SecurityKey?.SetValue("EncryptionMode", Instance.Security.EncryptionMode);
-            IsC_SecurityKey_SecretKey?.SetValue("AESKey", Instance.Security.SecretKey.AESKey);
-            IsC_SecurityKey_SecretKey?.SetValue("TOTPKey", Instance.Security.SecretKey.TOTPKey);
-            IsC_SecurityKey_SecretKey?.SetValue("Passkey", Instance.Security.SecretKey.Passkey);
-            IsC_SecurityKey_SecretKey?.SetValue("Password", Instance.Security.SecretKey.Password);
-            IsC_SecurityKey_SecretKey?.SetValue("USBKey", Instance.Security.SecretKey.USBKey);
+            IsC_SecurityKey?.SetValue("IsLockOn", Instance.Security.IsLockOn);
         }
     }
     public static class SettingsBinder

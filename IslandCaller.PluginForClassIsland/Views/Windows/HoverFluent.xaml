@@ -47,6 +47,7 @@
             <controls:HoverMainButton x:Name="img" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40"/>
         </ui:Button>
         <ui:Button
+            x:Name="Secondary_Button"
             Appearance="Secondary"
             Margin="102,0,0,0"
             Height="50"

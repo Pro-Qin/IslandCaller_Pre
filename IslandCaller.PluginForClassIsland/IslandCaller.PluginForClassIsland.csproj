@@ -16,6 +16,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Resource\Icon.ico" />
+      <None Remove="Resource\Icon.png" />
       <None Remove="Resource\Main.png" />
       <None Remove="Resource\Secondary.png" />
       <None Remove="Resource\Shower.png" />
@@ -34,6 +36,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Resource Include="Resource\Icon.ico">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Resource>
+      <Resource Include="Resource\Icon.png">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Resource>
       <Resource Include="Resource\Shower.png" />
     </ItemGroup>
 
@@ -45,6 +53,8 @@
         <PackageReference Include="ClassIsland.PluginSdk" Version="1.7.0.1">
             <ExcludeAssets>runtime</ExcludeAssets>
         </PackageReference>
+        <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.10.1" />
+        <PackageReference Include="QRCoder" Version="1.6.0" />
         <PackageReference Include="WPF-UI" Version="4.0.3" />
     </ItemGroup>
 
@@ -68,7 +78,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ViewModel\" />
+      <Compile Update="Views\Windows\FluentCallerGUI.xaml.cs">
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
 </Project>

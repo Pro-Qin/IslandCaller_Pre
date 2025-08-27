@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using IslandCaller.Views.Windows;
+using IslandCaller.Models;
 
 namespace IslandCaller.Services.NotificationProvidersNew;
 
@@ -23,7 +24,8 @@ public class IslandCallerNotificationProviderNew : NotificationProviderBase
 {
     public async void RandomCall(int stunum)
     {
-        IntPtr ptr1 = CoreDll.GetRandomStudentName(stunum);
+        if (Settings.Instance.General.BreakDisable & Status.Instance.lessonstatu == TimeState.Breaking) return;
+        IntPtr ptr1 = Core.SimpleRandom(stunum);
         string output = Marshal.PtrToStringBSTR(ptr1);
         Marshal.FreeBSTR(ptr1); // 释放分配的 BSTR 内存
         int maskduration = stunum * 2 + 1; // 计算持续时间
@@ -37,7 +39,7 @@ public class IslandCallerNotificationProviderNew : NotificationProviderBase
                 SpeechContent = output,
             }
         });
-        var fluentShower = new FluentShower(output, stunum);
+        var fluentShower = new FluentShower(output);
         fluentShower.Show();
         await Task.Delay(maskduration * 1000); // 等待指定的持续时间
         fluentShower.Close();

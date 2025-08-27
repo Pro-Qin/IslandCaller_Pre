@@ -10,16 +10,24 @@
 // 添加要在此处预编译的标头
 #include "framework.h"
 #include <fstream>
+#include <iostream>
 #include <vector>
 #include <string>
 #include <random>
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <shlobj.h>
+#include <webauthn.h>
+#include <bcrypt.h>
 #include <comutil.h>
 #include <locale>
 #include <codecvt>
 #include <unordered_set>
+#include <chrono>
+#include <cstring>
+#include <cstdint>
+#include <cmath>
 #endif //PCH_H
 
 #ifdef EXPORT_DLL

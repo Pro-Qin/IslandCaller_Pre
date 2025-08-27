@@ -22,7 +22,7 @@ namespace IslandCaller.Views.Windows
     /// </summary>
     public partial class FluentShower : Window
     {
-        public FluentShower(string name, int num)
+        public FluentShower(string name)
         {
             var control = new Controls.FluentShower.FluentShowerControl(name)
             {

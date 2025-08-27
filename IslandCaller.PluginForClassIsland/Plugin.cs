@@ -3,8 +3,10 @@ using ClassIsland.Core.Abstractions;
 using ClassIsland.Core.Attributes;
 using ClassIsland.Core.Extensions.Registry;
 using IslandCaller.Models;
+using IslandCaller.PluginForClassIsland.Models;
 using IslandCaller.Services.IslandCallerHostService;
 using IslandCaller.Services.NotificationProvidersNew;
+using IslandCaller.Views.Pages;
 using IslandCaller.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,44 +23,36 @@ public class Plugin : PluginBase
     public static string PlugincfgFolder;
     public override void Initialize(HostBuilderContext context, IServiceCollection services)
     {
+        Log.WriteLog("Plugin.cs", "Debug", "IslandCaller Plugin Initializing");
         PlugincfgFolder = PluginConfigFolder;
         services.AddHostedService<IslandCallerHostService>();
         services.AddNotificationProvider<IslandCallerNotificationProviderNew>();
+        services.AddSettingsPage<ClassIslandSettingPage>();
 
         AppBase.Current.AppStarted += (_, _) =>
         {
             new Models.Settings().Load();
-            CoreDll.DllInit(
-            Path.Combine(PlugincfgFolder, "default.txt"),
-            true);
-            string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Plugins\\Plugin.IslandCaller", "Wpf.Ui.dll");
+            if (Settings.Instance.Profile.ProfileList.TryGetValue(Settings.Instance.Profile.DefaultProfile, out string value))
+            {
+                if (Core.RandomImport(value) == 0) Log.WriteLog("Plugin.cs", "Success", "Core Initialized");
+                else Log.WriteLog("Plugin.cs", "Error", "Core Initialize Failed");
+            }
+            else
+            {
+                Log.WriteLog("Plugin.cs", "Error", "Profile not found");
+            }
+            string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins\\Plugin.IslandCaller", "iNKORE.UI.WPF.Modern.Controls");
             if (File.Exists(dllPath))
             {
                 Assembly.LoadFrom(dllPath);
             }
-            else
-            {
-                MessageBox.Show("未找到 Wpf.Ui.dll at " + dllPath);
-            }
-            
+
             if (Settings.Instance.Hover.IsEnable)
             {
-                new HoverFluent().Show();
+                Status.Instance.fluenthover.Show();
             }
+            
         };
     }
 
-}
-
-public static class CoreDll
-{
-    // 导入初始化函数
-    [DllImport(".\\Plugins\\Plugin.IslandCaller\\Core.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern int DllInit(
-        [MarshalAs(UnmanagedType.LPWStr)] string filename,
-        bool isAntiRepeat);
-
-    // 导入获取随机学生名称的函数
-    [DllImport(".\\Plugins\\Plugin.IslandCaller\\Core.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern IntPtr GetRandomStudentName(int number);
 }

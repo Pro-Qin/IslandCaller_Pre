@@ -139,6 +139,7 @@ namespace IslandCaller.Models
         public SecuritySetting()
         {
             _encryptionMode = 0; // Default to no encryption
+            _islockon = false;
         }
 
         private int _encryptionMode;
@@ -146,6 +147,13 @@ namespace IslandCaller.Models
         {
             get => _encryptionMode;
             set { if (_encryptionMode != value) { _encryptionMode = value; OnPropertyChanged(nameof(EncryptionMode)); } }
+        }
+
+        private bool _islockon;
+        public bool IsLockOn
+        {
+            get => _islockon;
+            set { if (_islockon != value) { _islockon = value; OnPropertyChanged(nameof(IsLockOn)); } }
         }
 
         public SecretKeySetting SecretKey { get; set; } = new SecretKeySetting();

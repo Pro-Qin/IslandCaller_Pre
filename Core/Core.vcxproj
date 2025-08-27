@@ -222,6 +222,9 @@ copy "..\bin\Core\Debug\x64\Core.dll" "$(ClassIsland_DebugBinaryDirectory)Plugin
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="TOTP.cpp" />
+    <ClCompile Include="WindowsHello.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

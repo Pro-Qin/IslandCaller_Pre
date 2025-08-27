@@ -1,4 +1,5 @@
-﻿using IslandCaller.Services.NotificationProvidersNew;
+﻿using IslandCaller.Models;
+using IslandCaller.Services.NotificationProvidersNew;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -10,15 +11,6 @@ namespace IslandCaller.Views.Windows
     /// </summary>
     public partial class HoverFluent : System.Windows.Window
     {
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-
-            var hwnd = new WindowInteropHelper(this).Handle;
-            int exStyle = (int)NativeMethods.GetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE);
-            exStyle |= NativeMethods.WS_EX_NOACTIVATE;
-            NativeMethods.SetWindowLong(hwnd, NativeMethods.GWL_EXSTYLE, (IntPtr)exStyle);
-        }
         public HoverFluent()
         {
             InitializeComponent();
@@ -48,7 +40,7 @@ namespace IslandCaller.Views.Windows
                 DragMove();
                 if (Models.Settings.Instance.Hover.Position.X == this.Left || Models.Settings.Instance.Hover.Position.Y == this.Top)
                 {
-                    MainButton_Click(sender,e);
+                    MainButton_Click(sender, e);
                 }
                 else
                 {
@@ -85,20 +77,10 @@ namespace IslandCaller.Views.Windows
         }
         private void SecondaryButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Secondary_Button.IsEnabled = false;
+            new FluentCallerGUI().ShowDialog();
+            Secondary_Button.IsEnabled = true;
         }
-    }
-    
-internal static class NativeMethods
-    {
-        public const int GWL_EXSTYLE = -20;
-        public const int WS_EX_NOACTIVATE = 0x08000000;
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
     }
 
 }
