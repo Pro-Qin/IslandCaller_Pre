@@ -1,15 +1,15 @@
-<!--markdownlint-disable MD001 MD033 MD041 MD051-->
-
 <div align="center">
+
 
 # IslandCaller
 
-IslandCaller 是一个基于 ClassIsland 提醒服务的轻量级点名器，用于在课堂上快速点名。
+IslandCaller 是一个基于 ClassIsland 提醒服务的轻量级点名器，用于在课堂上快速点名。<\br>
 [![Stars](https://img.shields.io/github/stars/HUSX100/IslandCaller?label=Stars)](https://github.com/HUSX100/IslandCaller)
 [![正式版 Release](https://img.shields.io/github/v/release/HUSX100/IslandCaller?style=flat-square&color=%233fb950&label=正式版)](https://github.com/HUSX100/IslandCaller/releases/latest)
 [![下载量](https://img.shields.io/github/downloads/HUSX100/IslandCaller/total?style=social&label=下载量&logo=github)](https://github.com/HUSX100/IslandCaller/releases/latest)
 [![GitHub Repo Languages](https://img.shields.io/github/languages/top/HUSX100/IslandCaller?style=flat-square)](https://github.com/HUSX100/IslandCaller/search?l=c%23)
 </div>
+
 ## 特性
 
 - 快速点名：输入班级名单后，可以通过桌面快捷方式快速点名。
@@ -25,17 +25,18 @@ IslandCaller 是一个基于 ClassIsland 提醒服务的轻量级点名器，用
 
 ### 高级点名功能
 
-- [ ] 指定人数
+- [x] 指定人数
 - [ ] 指定性别
 - [ ] 指定学号区间
-- [ ] 防名单重复
-- [ ] 每节课防止重复抽取
+- [x] 防名单重复
+- [x] 每节课防止重复抽取
+- [x] 更醒目的抽取提示
 
 ### 点名方式
 
 - [x] 桌面快捷方式
 - [x] 悬浮窗
-- [ ] 高级悬浮窗
+- [x] 高级悬浮窗
 
 ### 联动功能
 
@@ -65,6 +66,8 @@ IslandCaller 是一个基于 ClassIsland 提醒服务的轻量级点名器，用
 本项目使用了以下第三方库：
 
 - [ClassIsland.PluginSdk](https://github.com/ClassIsland/ClassIsland/)
+- [UI.WPF.Modern](https://github.com/iNKORE-NET/UI.WPF.Modern)
+- [QRCoder](https://github.com/codebude/QRCoder)
 
 ## 许可
 
