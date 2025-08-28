@@ -6,15 +6,10 @@ using IslandCaller.Models;
 using IslandCaller.PluginForClassIsland.Models;
 using IslandCaller.Services.IslandCallerHostService;
 using IslandCaller.Services.NotificationProvidersNew;
-using IslandCaller.Views.Pages;
-using IslandCaller.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows;
-
 namespace IslandCaller;
 
 [PluginEntrance]
@@ -27,7 +22,6 @@ public class Plugin : PluginBase
         PlugincfgFolder = PluginConfigFolder;
         services.AddHostedService<IslandCallerHostService>();
         services.AddNotificationProvider<IslandCallerNotificationProviderNew>();
-        services.AddSettingsPage<ClassIslandSettingPage>();
 
         AppBase.Current.AppStarted += (_, _) =>
         {

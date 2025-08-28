@@ -77,10 +77,4 @@
       <Resource Include="Resource\Secondary.png" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Views\Windows\FluentCallerGUI.xaml.cs">
-        <SubType>Code</SubType>
-      </Compile>
-    </ItemGroup>
-
 </Project>

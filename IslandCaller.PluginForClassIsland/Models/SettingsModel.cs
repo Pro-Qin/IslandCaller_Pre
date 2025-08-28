@@ -16,7 +16,7 @@ namespace IslandCaller.Models
     {
         public GeneralSetting()
         {
-            _version = "1.0.7.0";
+            _version = "1.0.4.0";
             _breakdisable = false;
         }
 

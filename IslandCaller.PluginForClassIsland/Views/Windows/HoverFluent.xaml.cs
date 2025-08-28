@@ -77,9 +77,7 @@ namespace IslandCaller.Views.Windows
         }
         private void SecondaryButton_Click(object sender, RoutedEventArgs e)
         {
-            Secondary_Button.IsEnabled = false;
-            new FluentCallerGUI().ShowDialog();
-            Secondary_Button.IsEnabled = true;
+            ProfileProcess.EditProfile(Settings.Instance.Profile.DefaultProfile);
         }
 
         private void MoveWindow()
