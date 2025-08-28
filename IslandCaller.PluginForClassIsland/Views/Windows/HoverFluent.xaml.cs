@@ -27,7 +27,7 @@ namespace IslandCaller.Views.Windows
         {
             if (e.ButtonState == MouseButtonState.Pressed)
             {
-                DragMove();
+                MoveWindow();
                 Models.Settings.Instance.Hover.Position.X = this.Left;
                 Models.Settings.Instance.Hover.Position.Y = this.Top;
             }
@@ -37,7 +37,7 @@ namespace IslandCaller.Views.Windows
         {
             if (e.ButtonState == MouseButtonState.Pressed)
             {
-                DragMove();
+                MoveWindow();
                 if (Models.Settings.Instance.Hover.Position.X == this.Left || Models.Settings.Instance.Hover.Position.Y == this.Top)
                 {
                     MainButton_Click(sender, e);
@@ -63,7 +63,7 @@ namespace IslandCaller.Views.Windows
         {
             if (e.ButtonState == MouseButtonState.Pressed)
             {
-                DragMove();
+                MoveWindow();
                 if (Models.Settings.Instance.Hover.Position.X == this.Left || Models.Settings.Instance.Hover.Position.Y == this.Top)
                 {
                     SecondaryButton_Click(sender, e);
@@ -80,6 +80,41 @@ namespace IslandCaller.Views.Windows
             Secondary_Button.IsEnabled = false;
             new FluentCallerGUI().ShowDialog();
             Secondary_Button.IsEnabled = true;
+        }
+
+        private void MoveWindow()
+        {
+            DragMove();
+            // 获取当前屏幕工作区
+            var screen = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(this).Handle);
+            var workingArea = screen.WorkingArea;
+
+            PresentationSource source = PresentationSource.FromVisual(this);
+            Matrix transformToDevice = source?.CompositionTarget?.TransformToDevice ?? Matrix.Identity;
+
+            double scaledWidth = this.ActualWidth * transformToDevice.M11;
+            double scaledHeight = this.ActualHeight * transformToDevice.M22;
+            double scaledLeft = this.Left * transformToDevice.M11;
+            double scaledTop = this.Top * transformToDevice.M22;
+            double newLeft = this.Left;
+            double newTop = this.Top;
+
+            // 如果窗口左边界在屏幕左侧之外
+            if (scaledLeft < workingArea.Left)
+                newLeft = workingArea.Left;
+            // 如果窗口右边界在屏幕右侧之外
+            if (scaledLeft + scaledWidth > workingArea.Right)
+                newLeft = (workingArea.Right - scaledWidth) / transformToDevice.M11;
+            // 如果窗口上边界在屏幕上方之外
+            if (scaledTop < workingArea.Top)
+                newTop = workingArea.Top;
+            // 如果窗口下边界在屏幕下方之外
+            if (scaledTop + scaledHeight > workingArea.Bottom)
+                newTop = (workingArea.Bottom - scaledHeight) / transformToDevice.M22;
+
+            // 应用修正后的位置
+            this.Left = newLeft;
+            this.Top = newTop;
         }
     }
 

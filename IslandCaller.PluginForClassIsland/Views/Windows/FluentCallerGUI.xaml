@@ -62,7 +62,7 @@
         <Button
             x:Name="Cancle"
             Content="取消" 
-            Margin="50,95,0,0" 
+            Margin="50,75,0,0" 
             Grid.Row="5" 
             VerticalAlignment="Top"
             Width="200"
@@ -70,7 +70,7 @@
         <Button
             x:Name="Random"
             Content="点名" 
-            Margin="300,95,0,0"
+            Margin="300,75,0,0"
             Style="{DynamicResource {x:Static ui:ThemeKeys.AccentButtonStyleKey}}"
             Grid.Row="5" 
             VerticalAlignment="Top"
