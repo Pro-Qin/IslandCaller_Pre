@@ -75,10 +75,10 @@ namespace IslandCaller.Views.Windows
                 }
             }
         }
-        private void SecondaryButton_Click(object sender, RoutedEventArgs e)
-        {
-            ProfileProcess.EditProfile(Settings.Instance.Profile.DefaultProfile);
-        }
+        //private void SecondaryButton_Click(object sender, RoutedEventArgs e)
+        //{
+           // ProfileProcess.EditProfile(Settings.Instance.Profile.DefaultProfile);
+       //}
 
         private void MoveWindow()
         {
